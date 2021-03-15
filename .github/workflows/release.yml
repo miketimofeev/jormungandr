@@ -227,7 +227,7 @@ jobs:
       - name: Unpack and verify checksum
         run: |
           mkdir archive-test
-          tar -C archive-test -xzvf $RELEASE_ARCHIVE
+          tar -C archive-test -xzSvf $RELEASE_ARCHIVE
           cd archive-test
           shasum -c ${{ runner.temp }}/checksum
 
