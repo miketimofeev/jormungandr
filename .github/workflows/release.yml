@@ -183,6 +183,11 @@ jobs:
             --release
             --target ${{ matrix.config.target }}
 
+      - name: List the binary file with block information
+        run: |
+          cd target/${{ matrix.config.target }}/release
+          ls -ls jcli
+
       - name: Checksum the binary
         run: |
           cd target/${{ matrix.config.target }}/release
