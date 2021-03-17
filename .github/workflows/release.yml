@@ -188,6 +188,9 @@ jobs:
           cd target/${{ matrix.config.target }}/release
           ls -ls jcli
 
+      - name: Check that the binary is usable
+        run: target/${{ matrix.config.target }}/release/jcli --version
+
       - name: Checksum the binary
         run: |
           cd target/${{ matrix.config.target }}/release
@@ -201,9 +204,17 @@ jobs:
           RELEASE_ARCHIVE=$archive
           EOF
 
-      - name: Unpack and verify checksum
+      - run: sleep 10
+
+      - name: List the block information on the binary again
+        run: |
+          cd target/${{ matrix.config.target }}/release
+          ls -ls jcli
+
+      - name: Unpack, check the binary and verify checksum
         run: |
           mkdir archive-test
           tar -C archive-test -xzSvf $RELEASE_ARCHIVE
           cd archive-test
+          ./jcli --version || :
           shasum -c ${{ runner.temp }}/checksum
