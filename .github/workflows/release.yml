@@ -191,6 +191,9 @@ jobs:
       - name: Check that the binary is usable
         run: target/${{ matrix.config.target }}/release/jcli --version
 
+      - name: Flush the disk cache
+        run: sudo /usr/sbin/purge
+
       - name: Checksum the binary
         run: |
           cd target/${{ matrix.config.target }}/release
@@ -203,13 +206,6 @@ jobs:
           cat <<EOF >> $GITHUB_ENV
           RELEASE_ARCHIVE=$archive
           EOF
-
-      - run: sleep 10
-
-      - name: List the block information on the binary again
-        run: |
-          cd target/${{ matrix.config.target }}/release
-          ls -ls jcli
 
       - name: Unpack, check the binary and verify checksum
         run: |
