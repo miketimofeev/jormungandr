@@ -134,6 +134,8 @@ jobs:
         target_cpu: [generic]
         toolchain: [stable]
     steps:
+      - run: ls /usr/local/opt/runner/settings/instancename
+
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.toolchain }}
@@ -190,9 +192,6 @@ jobs:
 
       - name: Check that the binary is usable
         run: target/${{ matrix.config.target }}/release/jcli --version
-
-      - name: Flush the disk cache
-        run: sudo /usr/sbin/purge
 
       - name: Checksum the binary
         run: |
