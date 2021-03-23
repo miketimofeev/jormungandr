@@ -45,7 +45,6 @@ jobs:
             hub release delete ${ref#refs/tags/}
             git push --delete origin $ref
           done
-
       - id: create_release
         name: Create a draft release
         env:
@@ -57,7 +56,6 @@ jobs:
             -t $GITHUB_SHA $release_tag
           upload_url=$(hub release show -f '%uA' $release_tag)
           echo "::set-output name=upload_url::$upload_url"
-
   cache_info:
     name: Bootstrap cache
     if: >
@@ -81,7 +79,6 @@ jobs:
           )
           echo "$commit"
           echo "::set-output name=head::$commit"
-
       - id: hash-cargo-lock
         name: Calculate dependency cache key
         run: |
@@ -91,7 +88,6 @@ jobs:
           )
           echo "$hash"
           echo "::set-output name=hash::$hash"
-
   update_deps:
     name: Update dependencies
     needs: cache_info
@@ -170,7 +166,6 @@ jobs:
           [target.${{ matrix.config.target }}]
           rustflags = ["-C", "target-cpu=${{ matrix.target_cpu }}", "-C", "lto", "-C", "embed-bitcode=yes"]
           EOF
-
       - name: Build jcli
         uses: actions-rs/cargo@v1
         env:
@@ -184,12 +179,10 @@ jobs:
             --locked
             --release
             --target ${{ matrix.config.target }}
-
       - name: List the binary file with block information
         run: |
           cd target/${{ matrix.config.target }}/release
           ls -ls jcli
-
       - name: Check that the binary is usable
         run: target/${{ matrix.config.target }}/release/jcli --version
 
@@ -197,7 +190,6 @@ jobs:
         run: |
           cd target/${{ matrix.config.target }}/release
           shasum jcli > ${{ runner.temp }}/checksum
-
       - name: Pack the binary
         run: |
           archive=${{ runner.temp }}/archive.tar.gz
@@ -205,7 +197,6 @@ jobs:
           cat <<EOF >> $GITHUB_ENV
           RELEASE_ARCHIVE=$archive
           EOF
-
       - name: Unpack, check the binary and verify checksum
         run: |
           mkdir archive-test
