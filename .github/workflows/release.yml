@@ -3,7 +3,7 @@ on:
     branches:
       - 'ci/test/nightly' # For testing nightly build workflow
 
-name: Release
+name: Release1
 
 jobs:
   create_release:
