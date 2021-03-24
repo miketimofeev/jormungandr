@@ -188,6 +188,9 @@ jobs:
           shasum jcli > ${{ runner.temp }}/checksum
       - name: Pack the binary
         run: |
+          sudo /usr/sbin/purge
+          cd ./target/${{ matrix.config.target }}/release
+          ls -las jcli
           archive=${{ runner.temp }}/archive.tar.gz
           tar -C ./target/${{ matrix.config.target }}/release -czvf $archive jcli
           cat <<EOF >> $GITHUB_ENV
@@ -198,5 +201,6 @@ jobs:
           mkdir archive-test
           tar -C archive-test -xzSvf $RELEASE_ARCHIVE
           cd archive-test
+          ls -las jcli
           ./jcli --version || :
           shasum -c ${{ runner.temp }}/checksum
