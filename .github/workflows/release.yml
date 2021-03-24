@@ -189,8 +189,7 @@ jobs:
       - name: Pack the binary
         run: |
           sudo /usr/sbin/purge
-          cd ./target/${{ matrix.config.target }}/release
-          ls -las jcli
+          ls -las target/${{ matrix.config.target }}/release/jcli
           archive=${{ runner.temp }}/archive.tar.gz
           tar -C ./target/${{ matrix.config.target }}/release -czvf $archive jcli
           cat <<EOF >> $GITHUB_ENV
