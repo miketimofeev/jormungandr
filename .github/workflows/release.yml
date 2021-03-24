@@ -178,7 +178,7 @@ jobs:
       - name: List the binary file with block information
         run: |
           cd target/${{ matrix.config.target }}/release
-          ls -ls jcli
+          ls -las jcli
       - name: Check that the binary is usable
         run: target/${{ matrix.config.target }}/release/jcli --version
 
